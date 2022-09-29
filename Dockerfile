@@ -1,10 +1,10 @@
 FROM golang:1.14.8-stretch as build
-LABEL maintainer="Infinity Works"
+LABEL maintainer="Filecoin"
 
 ENV GO111MODULE=on
 
-COPY ./ /go/src/github.com/infinityworks/github-exporter
-WORKDIR /go/src/github.com/infinityworks/github-exporter
+COPY ./ /go/src/github.com/filecoin-project/github-exporter
+WORKDIR /go/src/github.com/filecoin-project/github-exporter
 
 RUN go mod download \
     && go test ./... \

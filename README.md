@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/infinityworks/github-exporter.svg?branch=master)](https://travis-ci.org/infinityworks/github-exporter)
-
 # Prometheus GitHub Exporter
 
 Exposes basic metrics for your repositories from the GitHub API, to a Prometheus compatible endpoint.
@@ -24,13 +22,13 @@ the format "user1, user2".
 
 Run manually from Docker Hub:
 ```
-docker run -d --restart=always -p 9171:9171 -e REPOS="infinityworks/ranch-eye, infinityworks/prom-conf" infinityworks/github-exporter
+docker run -d --restart=always -p 9171:9171 -e REPOS="filecoin-project/github-exporter, filecoin-project/lotus" filecoin-project/github-exporter
 ```
 
 Build a docker image:
 ```
 docker build -t <image-name> .
-docker run -d --restart=always -p 9171:9171 -e REPOS="infinityworks/ranch-eye, infinityworks/prom-conf" <image-name>
+docker run -d --restart=always -p 9171:9171 -e REPOS="filecoin-project/github-exporter, filecoin-project/lotus" <image-name>
 ```
 
 ## Docker compose
@@ -43,7 +41,7 @@ github-exporter:
       - 9171
     ports:
       - 9171:9171
-    image: infinityworks/github-exporter:latest
+    image: filecoin-project/github-exporter:latest
     environment:
       - REPOS=<REPOS you want to monitor>
       - GITHUB_TOKEN=<your github api token>
@@ -72,6 +70,3 @@ Prior to running the following command ensure the number has been increased to d
 ```bash
 ./release-version.sh
 ```
-
-## Metadata
-[![](https://images.microbadger.com/badges/image/infinityworks/github-exporter.svg)](http://microbadger.com/images/infinityworks/github-exporter "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/infinityworks/github-exporter.svg)](http://microbadger.com/images/infinityworks/github-exporter "Get your own version badge on microbadger.com")

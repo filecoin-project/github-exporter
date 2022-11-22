@@ -32,13 +32,13 @@ func (e *Exporter) gatherData() ([]*Datum, error) {
 		} else {
 			d := new(Datum)
 
-			// Get releases
 			if strings.Contains(response.url, "/repos/") {
 				getReleases(e, response.url, &d.Releases)
-			}
-			// Get PRs
-			if strings.Contains(response.url, "/repos/") {
 				getPRs(e, response.url, &d.Pulls)
+				getClones(e, response.url, &d.Clones)
+				getReferralPaths(e, response.url, &d.ReferralPaths)
+				getReferralSources(e, response.url, &d.ReferralSources)
+				getPageViews(e, response.url, &d.PageViews)
 			}
 			json.Unmarshal(response.body, &d)
 			data = append(data, d)
@@ -119,6 +119,58 @@ func getPRs(e *Exporter, url string, data *[]Pull) {
 	}
 
 	json.Unmarshal(pullsResponse[0].body, &data)
+}
+
+func getClones(e *Exporter, url string, data *Clones) {
+	i := strings.Index(url, "?")
+	baseURL := url[:i]
+	clonesURL := baseURL + "/traffic/clones"
+	clonesResponse, err := asyncHTTPGets([]string{clonesURL}, e.APIToken())
+
+	if err != nil {
+		log.Errorf("Unable to obtain repository clones from API, Error: %s", err)
+	}
+
+	json.Unmarshal(clonesResponse[0].body, &data)
+}
+
+func getReferralPaths(e *Exporter, url string, data *[]ReferralPath) {
+	i := strings.Index(url, "?")
+	baseURL := url[:i]
+	referralPathsURL := baseURL + "/traffic/popular/paths"
+	referralPathsResponse, err := asyncHTTPGets([]string{referralPathsURL}, e.APIToken())
+
+	if err != nil {
+		log.Errorf("Unable to obtain referral paths from API, Error: %s", err)
+	}
+
+	json.Unmarshal(referralPathsResponse[0].body, &data)
+}
+
+func getReferralSources(e *Exporter, url string, data *[]ReferralSource) {
+	i := strings.Index(url, "?")
+	baseURL := url[:i]
+	referralSourceURL := baseURL + "/traffic/popular/referrers"
+	referralSourceResponse, err := asyncHTTPGets([]string{referralSourceURL}, e.APIToken())
+
+	if err != nil {
+		log.Errorf("Unable to obtain referral sources from API, Error: %s", err)
+	}
+
+	json.Unmarshal(referralSourceResponse[0].body, &data)
+}
+
+func getPageViews(e *Exporter, url string, data *PageViews) {
+	i := strings.Index(url, "?")
+	baseURL := url[:i]
+	pageViewsURL := baseURL + "/traffic/views"
+	pageViewsResponse, err := asyncHTTPGets([]string{pageViewsURL}, e.APIToken())
+
+	if err != nil {
+		log.Errorf("Unable to obtain pull requests from API, Error: %s", err)
+	}
+
+	json.Unmarshal(pageViewsResponse[0].body, &data)
 }
 
 // isArray simply looks for key details that determine if the JSON response is an array or not.

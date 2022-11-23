@@ -58,40 +58,40 @@ type Pull struct {
 }
 
 type Clones struct {
-	Count   string  `json:"count"`
-	Uniques string  `json:"uniques"`
+	Count   float64 `json:"count"`
+	Uniques float64 `json:"uniques"`
 	Clones  []Clone `json:"clones"`
 }
 
 type Clone struct {
-	Count     string `json:"count"`
-	Uniques   string `json:"uniques"`
-	Timestamp string `json:"timestamp"`
+	Count     float64 `json:"count"`
+	Uniques   float64 `json:"uniques"`
+	Timestamp string  `json:"timestamp"`
 }
 
 type ReferralPath struct {
-	Count   string `json:"count"`
-	Uniques string `json:"uniques"`
-	Path    string `json:"path"`
-	Title   string `json:"title"`
+	Count   float64 `json:"count"`
+	Uniques float64 `json:"uniques"`
+	Path    string  `json:"path"`
+	Title   string  `json:"title"`
 }
 
 type ReferralSource struct {
-	Count    string `json:"count"`
-	Uniques  string `json:"uniques"`
-	Referrer string `json:"referrer"`
+	Count    float64 `json:"count"`
+	Uniques  float64 `json:"uniques"`
+	Referrer string  `json:"referrer"`
 }
 
 type PageViews struct {
-	Count   string `json:"count"`
-	Uniques string `json:"uniques"`
+	Count   float64 `json:"count"`
+	Uniques float64 `json:"uniques"`
 	Views   []PageView
 }
 
 type PageView struct {
-	Count     string `json:"count"`
-	Uniques   string `json:"uniques"`
-	Timestamp string `json:"timestamp"`
+	Count     float64 `json:"count"`
+	Uniques   float64 `json:"uniques"`
+	Timestamp string  `json:"timestamp"`
 }
 
 type Asset struct {

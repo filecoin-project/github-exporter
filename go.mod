@@ -9,4 +9,5 @@ require (
 	github.com/sirupsen/logrus v1.4.2
 	github.com/steinfletcher/apitest v1.3.8
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80
+	golang.org/x/sys v0.2.0 // indirect
 )

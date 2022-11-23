@@ -105,7 +105,11 @@ func getReleases(e *Exporter, url string, data *[]Release) {
 		log.Errorf("Unable to obtain releases from API, Error: %s", err)
 	}
 
-	json.Unmarshal(releasesResponse[0].body, &data)
+	for _, r := range releasesResponse {
+		d := []Release{}
+		json.Unmarshal(r.body, &d)
+		*data = append(*data, d...)
+	}
 }
 
 func getPRs(e *Exporter, url string, data *[]Pull) {
@@ -118,7 +122,11 @@ func getPRs(e *Exporter, url string, data *[]Pull) {
 		log.Errorf("Unable to obtain pull requests from API, Error: %s", err)
 	}
 
-	json.Unmarshal(pullsResponse[0].body, &data)
+	for _, r := range pullsResponse {
+		d := []Pull{}
+		json.Unmarshal(r.body, &d)
+		*data = append(*data, d...)
+	}
 }
 
 func getClones(e *Exporter, url string, data *Clones) {

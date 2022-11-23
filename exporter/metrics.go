@@ -82,12 +82,12 @@ func AddMetrics() map[string]*prometheus.Desc {
 		"Get the total number of unique views for the last 14 days",
 		[]string{"repo", "user", "private", "fork", "archived", "license", "language"}, nil,
 	)
-	APIMetrics["ReferreralSources"] = prometheus.NewDesc(
+	APIMetrics["ReferralSources"] = prometheus.NewDesc(
 		prometheus.BuildFQName("github", "repo", "referral_sources_biweekly"),
 		"Get the total visitor count top 10 referrers over the last 14 days",
 		[]string{"source", "repo", "user", "private", "fork", "archived", "license", "language"}, nil,
 	)
-	APIMetrics["UniqueReferreralSources"] = prometheus.NewDesc(
+	APIMetrics["UniqueReferralSources"] = prometheus.NewDesc(
 		prometheus.BuildFQName("github", "repo", "unique_referral_sources_biweekly"),
 		"Get the unique visitor count for top 10 referrers over the last 14 days",
 		[]string{"source", "repo", "user", "private", "fork", "archived", "license", "language"}, nil,
@@ -144,8 +144,6 @@ func (e *Exporter) processMetrics(data []*Datum, rates *RateLimits, ch chan<- pr
 		// The xOpenIssues field in the Github API includes all Open Issues and all Open PRs, so subtract the Open PRs to get only the Open Issue count.
 		ch <- prometheus.MustNewConstMetric(e.APIMetrics["OpenIssues"], prometheus.GaugeValue, (x.OpenIssues - prCount), x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
 		ch <- prometheus.MustNewConstMetric(e.APIMetrics["PullRequestCount"], prometheus.GaugeValue, prCount, x.Name)
-		ch <- prometheus.MustNewConstMetric(e.APIMetrics["RepoClonesBiweekly"], prometheus.GaugeValue, x.Clones.Count, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
-		ch <- prometheus.MustNewConstMetric(e.APIMetrics["UniqueRepoClonesBiweekly"], prometheus.GaugeValue, x.Clones.Uniques, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
 
 		ch <- prometheus.MustNewConstMetric(e.APIMetrics["RepoClonesBiweekly"], prometheus.GaugeValue, x.Clones.Count, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
 		ch <- prometheus.MustNewConstMetric(e.APIMetrics["UniqueRepoClonesBiweekly"], prometheus.GaugeValue, x.Clones.Uniques, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
@@ -171,8 +169,8 @@ func (e *Exporter) processMetrics(data []*Datum, rates *RateLimits, ch chan<- pr
 		}
 
 		for _, path := range x.ReferralPaths {
-			ch <- prometheus.MustNewConstMetric(e.APIMetrics["ReferralCount"], prometheus.GaugeValue, path.Count, path.Path, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
-			ch <- prometheus.MustNewConstMetric(e.APIMetrics["UniqueReferralCount"], prometheus.GaugeValue, path.Uniques, path.Path, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
+			ch <- prometheus.MustNewConstMetric(e.APIMetrics["ReferralPaths"], prometheus.GaugeValue, path.Count, path.Path, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
+			ch <- prometheus.MustNewConstMetric(e.APIMetrics["UniqueReferralPaths"], prometheus.GaugeValue, path.Uniques, path.Path, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
 		}
 	}
 

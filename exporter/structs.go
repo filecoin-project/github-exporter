@@ -28,17 +28,21 @@ type Datum struct {
 	License struct {
 		Key string `json:"key"`
 	} `json:"license"`
-	Language   string  `json:"language"`
-	Archived   bool    `json:"archived"`
-	Private    bool    `json:"private"`
-	Fork       bool    `json:"fork"`
-	Forks      float64 `json:"forks"`
-	Stars      float64 `json:"stargazers_count"`
-	OpenIssues float64 `json:"open_issues"`
-	Watchers   float64 `json:"subscribers_count"`
-	Size       float64 `json:"size"`
-	Releases   []Release
-	Pulls      []Pull
+	Language        string  `json:"language"`
+	Archived        bool    `json:"archived"`
+	Private         bool    `json:"private"`
+	Fork            bool    `json:"fork"`
+	Forks           float64 `json:"forks"`
+	Stars           float64 `json:"stargazers_count"`
+	OpenIssues      float64 `json:"open_issues"`
+	Watchers        float64 `json:"subscribers_count"`
+	Size            float64 `json:"size"`
+	Releases        []Release
+	Pulls           []Pull
+	Clones          Clones
+	ReferralPaths   []ReferralPath
+	ReferralSources []ReferralSource
+	PageViews       PageViews
 }
 
 type Release struct {
@@ -51,6 +55,43 @@ type Pull struct {
 	User struct {
 		Login string `json:"login"`
 	} `json:"user"`
+}
+
+type Clones struct {
+	Count   float64 `json:"count"`
+	Uniques float64 `json:"uniques"`
+	Clones  []Clone `json:"clones"`
+}
+
+type Clone struct {
+	Count     float64 `json:"count"`
+	Uniques   float64 `json:"uniques"`
+	Timestamp string  `json:"timestamp"`
+}
+
+type ReferralPath struct {
+	Count   float64 `json:"count"`
+	Uniques float64 `json:"uniques"`
+	Path    string  `json:"path"`
+	Title   string  `json:"title"`
+}
+
+type ReferralSource struct {
+	Count    float64 `json:"count"`
+	Uniques  float64 `json:"uniques"`
+	Referrer string  `json:"referrer"`
+}
+
+type PageViews struct {
+	Count   float64 `json:"count"`
+	Uniques float64 `json:"uniques"`
+	Views   []PageView
+}
+
+type PageView struct {
+	Count     float64 `json:"count"`
+	Uniques   float64 `json:"uniques"`
+	Timestamp string  `json:"timestamp"`
 }
 
 type Asset struct {

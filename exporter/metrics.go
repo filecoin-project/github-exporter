@@ -7,6 +7,12 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
+func DateEqual(date1, date2 time.Time) bool {
+	y1, m1, d1 := date1.Date()
+	y2, m2, d2 := date2.Date()
+	return y1 == y2 && m1 == m2 && d1 == d2
+}
+
 // AddMetrics - Add's all of the metrics to a map of strings, returns the map.
 func AddMetrics() map[string]*prometheus.Desc {
 
@@ -148,7 +154,8 @@ func (e *Exporter) processMetrics(data []*Datum, rates *RateLimits, ch chan<- pr
 		ch <- prometheus.MustNewConstMetric(e.APIMetrics["RepoClonesBiweekly"], prometheus.GaugeValue, x.Clones.Count, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
 		ch <- prometheus.MustNewConstMetric(e.APIMetrics["UniqueRepoClonesBiweekly"], prometheus.GaugeValue, x.Clones.Uniques, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
 		for _, dailyClones := range x.Clones.Clones {
-			if time.Now().Format(time.RFC3339) == dailyClones.Timestamp {
+			ts, _ := time.Parse(time.RFC3339, dailyClones.Timestamp)
+			if DateEqual(time.Now(), ts) {
 				ch <- prometheus.MustNewConstMetric(e.APIMetrics["RepoClonesDaily"], prometheus.GaugeValue, dailyClones.Count, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
 				ch <- prometheus.MustNewConstMetric(e.APIMetrics["UniqueRepoClonesDaily"], prometheus.GaugeValue, dailyClones.Uniques, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
 			}
@@ -157,7 +164,8 @@ func (e *Exporter) processMetrics(data []*Datum, rates *RateLimits, ch chan<- pr
 		ch <- prometheus.MustNewConstMetric(e.APIMetrics["PageViewsBiweekly"], prometheus.GaugeValue, x.PageViews.Count, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
 		ch <- prometheus.MustNewConstMetric(e.APIMetrics["UniquePageViewsBiweekly"], prometheus.GaugeValue, x.PageViews.Uniques, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
 		for _, dailyPageViews := range x.PageViews.Views {
-			if time.Now().Format(time.RFC3339) == dailyPageViews.Timestamp {
+			ts, _ := time.Parse(time.RFC3339, dailyPageViews.Timestamp)
+			if DateEqual(time.Now(), ts) {
 				ch <- prometheus.MustNewConstMetric(e.APIMetrics["PageViewsDaily"], prometheus.GaugeValue, dailyPageViews.Count, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
 				ch <- prometheus.MustNewConstMetric(e.APIMetrics["UniquePageViewsDaily"], prometheus.GaugeValue, dailyPageViews.Uniques, x.Name, x.Owner.Login, strconv.FormatBool(x.Private), strconv.FormatBool(x.Fork), strconv.FormatBool(x.Archived), x.License.Key, x.Language)
 			}

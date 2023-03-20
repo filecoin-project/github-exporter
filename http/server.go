@@ -1,11 +1,12 @@
 package http
 
 import (
+	"log"
+	"net/http"
+
 	"github.com/filecoin-project/github-exporter/exporter"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"log"
-	"net/http"
 )
 
 type Server struct {

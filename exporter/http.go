@@ -36,15 +36,15 @@ func asyncHTTPGets(targets []string, token string) ([]*Response, error) {
 	}
 
 	for r := range ch {
-	    if r.err != nil {
-	        log.Errorf("error scraping API, Error: %v", r.err)
-	        return nil, r.err
-	    }
-	    responses = append(responses, r)
-	
-	    if len(responses) == len(targets) {
-	        return responses, nil
-	    }
+		if r.err != nil {
+			log.Errorf("error scraping API, Error: %v", r.err)
+			return nil, r.err
+		}
+		responses = append(responses, r)
+
+		if len(responses) == len(targets) {
+			return responses, nil
+		}
 	}
 }
 

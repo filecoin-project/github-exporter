@@ -46,6 +46,7 @@ func asyncHTTPGets(targets []string, token string) ([]*Response, error) {
 			return responses, nil
 		}
 	}
+	return
 }
 
 // paginateTargets returns all pages for the provided targets

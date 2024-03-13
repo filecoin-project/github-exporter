@@ -2,7 +2,6 @@ module github.com/filecoin-project/github-exporter
 
 go 1.21
 
-
 require (
 	github.com/infinityworks/go-common v0.0.0-20170820165359-7f20a140fd37
 	github.com/prometheus/client_golang v1.14.0

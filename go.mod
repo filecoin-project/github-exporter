@@ -1,6 +1,6 @@
 module github.com/filecoin-project/github-exporter
 
-go 1.22
+go 1.23
 
 require (
 	github.com/infinityworks/go-common v0.0.0-20170820165359-7f20a140fd37
